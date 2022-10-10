@@ -95,13 +95,13 @@ def dec_file_cbc(key, filename, rand_num):
     for octet in byte:
         text.append(dec_byte(key, octet) ^ rand_num)
         rand_num = octet
+    for _ in text:
+        print(chr(_), end='')
     #write_file(filename + ".dec2", text)
-    print(text)
 
 
 if __name__ == "__main__":
     rand_num = randint(0, 255)
-    print("Dechiffrement du fichier message.txt effectué.\n")
     enc_file_cbc([9, 0], "test.txt", rand_num)
     print("Chiffrement du fichier test.txt effectué en cbc.\n")
     dec_file_cbc(
