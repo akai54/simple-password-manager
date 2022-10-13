@@ -1,6 +1,5 @@
 from random import randint
 
-# EX1
 sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
 
 def round(key, msg):
@@ -21,7 +20,6 @@ def dec(key, ctxt):
     res = back_round(key[0], tmp)
     return res
 
-# EX2 #
 def enc_byte(key, msg):
     premiere_partie = msg % 16
     deuxieme_partie = msg // 16
@@ -31,9 +29,6 @@ def enc_byte(key, msg):
     return final
 
 
-enc_byte([3, 7], ord("f"))
-
-
 def dec_byte(key, ctxt):
     premiere_partie = ctxt % 16
     deuxieme_partie = ctxt // 16
@@ -41,9 +36,6 @@ def dec_byte(key, ctxt):
     resultat2 = dec(key, deuxieme_partie)
     final = (resultat1 << 4) | (resultat2)
     return final
-
-
-dec_byte([3, 7], 221)
 
 
 def enc_ascii(key, msg):
@@ -95,16 +87,21 @@ def dec_file_cbc(key, filename, rand_num):
     for octet in byte:
         text.append(dec_byte(key, octet) ^ rand_num)
         rand_num = octet
-    for _ in text:
-        print(chr(_), end='')
-    #write_file(filename + ".dec2", text)
+    # for _ in text:
+        #print(chr(_), end='')
+    write_file(filename + ".dec2", text)
 
+def choice():
+    print("Simple Password manager.\n"
+          "Press n to create a new database.\n"
+          "Press l to load an existing database.\n")
+    choice = input()
+    return choice
 
 if __name__ == "__main__":
+    choice()
     rand_num = randint(0, 255)
     enc_file_cbc([9, 0], "test.txt", rand_num)
     print("Chiffrement du fichier test.txt effectué en cbc.\n")
-    dec_file_cbc(
-        [9, 0], "test.txt.enc2", rand_num
-    )
+    dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
     print("Dechiffrement du fichier test.txt effectué.\n")
