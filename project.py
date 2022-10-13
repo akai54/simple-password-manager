@@ -96,6 +96,12 @@ def choice():
           "Press n to create a new database.\n"
           "Press l to load an existing database.\n")
     choice = input()
+    if choice == "n":
+        pass 
+    elif choice == "l":
+        pass
+    else:
+        print("Please choose only between the available choices.\n")
     return choice
 
 if __name__ == "__main__":
