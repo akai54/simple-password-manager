@@ -94,11 +94,15 @@ def dec_file_cbc(key, filename, rand_num):
 
 def load_database():
     print("please choose the database.\n")
-    dir_list = os.listdir()
-    for x in os.listdir():
-        if x.endswith(".enc2"):
-            print(x)
-    chosen_file = input("Enter the database file number.\n")
+    list_databases = []
+    for file in os.listdir():
+        if file.endswith(".enc2"):
+            list_databases.append(file)
+
+    for i, val in enumerate(list_databases):
+        print(i, ",", val)
+    chosen_file = int(input("\nEnter the database file number.\n"))
+    print(f'You have chosen {list_databases[chosen_file]}.\n')
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
@@ -122,8 +126,8 @@ def choice():
 
 if __name__ == "__main__":
     choice()
-    rand_num = randint(0, 255)
-    enc_file_cbc([9, 0], "test.txt", rand_num)
-    print("Chiffrement du fichier test.txt effectué en cbc.\n")
-    dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
-    print("Dechiffrement du fichier test.txt effectué.\n")
+    #rand_num = randint(0, 255)
+    #enc_file_cbc([9, 0], "test.txt", rand_num)
+    #print("Chiffrement du fichier test.txt effectué en cbc.\n")
+    #dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
+    #print("Dechiffrement du fichier test.txt effectué.\n")
