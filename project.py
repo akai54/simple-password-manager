@@ -95,7 +95,10 @@ def dec_file_cbc(key, filename, rand_num):
 def load_database():
     print("please choose the database.\n")
     dir_list = os.listdir()
-    print(dir_list)
+    for x in os.listdir():
+        if x.endswith(".enc2"):
+            print(x)
+    chosen_file = input("Enter the database file number.\n")
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
@@ -110,7 +113,7 @@ def choice():
     if choice == "n":
         pass 
     elif choice == "l":
-        pass
+        load_database()
     elif choice == "q":
         exit()
     else:
