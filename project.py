@@ -1,4 +1,5 @@
 from random import randint
+import os
 
 sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
 
@@ -90,6 +91,11 @@ def dec_file_cbc(key, filename, rand_num):
     # for _ in text:
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
+
+def load_database():
+    print("please choose the database.\n")
+    dir_list = os.listdir()
+    print(dir_list)
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
