@@ -1,6 +1,6 @@
-from random import randint
 import os
 import sqlite3
+from random import randint
 from tabulate import tabulate
 
 sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
@@ -94,7 +94,20 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
-#def add_entry(db_name):
+def add_entry(db_name, site, usr, pwd):
+    # Connect to database.
+    conn = sqlite3.connect(db_name)
+
+    # Create a cursor.
+    cursor = conn.cursor()
+
+    # Insert one Record into Table. 
+    cursor.execute("INSERT INTO passwords VALUES (site, usr, pwd)")
+
+    # Commit our command.
+    conn.commit()
+    # Close our connection. 
+    conn.close()
 
 
 def load_database():
