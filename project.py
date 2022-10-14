@@ -94,6 +94,25 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
+def show_db(db_name):
+    # Connect to database.
+    conn = sqlite3.connect(db_name)
+
+    # Create a cursor.
+    cursor = conn.cursor()
+
+    # Query the db.
+    cursor.execute("SELECT rowid, * FROM passwords")
+
+    # Commit our command.
+    conn.commit()
+
+    # Print the whole db.
+    print(tabulate(cursor.fetchall()))
+
+    # Close our connection. 
+    conn.close()
+
 def add_entry(db_name, site, usr, pwd):
     # Connect to database.
     conn = sqlite3.connect(db_name)
@@ -102,7 +121,7 @@ def add_entry(db_name, site, usr, pwd):
     cursor = conn.cursor()
 
     # Insert one Record into Table. 
-    cursor.execute("INSERT INTO passwords VALUES (site, usr, pwd)")
+    cursor.execute("INSERT INTO passwords VALUES (?, ?, ?)", (site, usr, pwd))
 
     # Commit our command.
     conn.commit()
@@ -163,6 +182,8 @@ def choice():
 if __name__ == "__main__":
     choice()
     rand_num = randint(0, 255)
+    add_entry("eli.db", "fb", "b", "1")
+    show_db("eli.db")
     #enc_file_cbc([25, 0], "test.txt", rand_num)
     #print("Chiffrement du fichier test.txt effectué en cbc.\n")
     #dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
