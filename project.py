@@ -94,6 +94,22 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
+def delete_entry(db_name, rowid):
+    # Connect to database.
+    conn = sqlite3.connect(db_name)
+
+    # Create a cursor.
+    cursor = conn.cursor()
+
+    #Delete Records. 
+    cursor.execute("DELETE FROM passwords WHERE rowid = ?", rowid)
+
+    # Commit our command.
+    conn.commit()
+    # Close our connection. 
+    conn.close()
+
+
 def show_db(db_name):
     # Connect to database.
     conn = sqlite3.connect(db_name)
@@ -133,13 +149,14 @@ def load_database():
     print("please choose the database.\n")
     list_databases = []
     for file in os.listdir():
-        if file.endswith(".enc2"):
+        if file.endswith(".db"):
             list_databases.append(file)
 
     for i, val in enumerate(list_databases):
         print(i, ",", val)
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f'You have chosen {list_databases[chosen_file]}.\n')
+    show_db(list_databases[chosen_file])
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
@@ -180,10 +197,10 @@ def choice():
     return choice
 
 if __name__ == "__main__":
-    choice()
     rand_num = randint(0, 255)
-    add_entry("eli.db", "fb", "b", "1")
-    show_db("eli.db")
+    choice()
+    #add_entry("eli.db", "fb", "b", "1")
+    #show_db("eli.db")
     #enc_file_cbc([25, 0], "test.txt", rand_num)
     #print("Chiffrement du fichier test.txt effectué en cbc.\n")
     #dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
