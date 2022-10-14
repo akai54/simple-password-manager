@@ -1,5 +1,7 @@
 from random import randint
 import os
+import sqlite3
+from tabulate import tabulate
 
 sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
 
@@ -126,8 +128,8 @@ def choice():
 
 if __name__ == "__main__":
     choice()
-    #rand_num = randint(0, 255)
-    #enc_file_cbc([9, 0], "test.txt", rand_num)
+    rand_num = randint(0, 255)
+    enc_file_cbc([25, 0], "test.txt", rand_num)
     #print("Chiffrement du fichier test.txt effectué en cbc.\n")
     #dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
     #print("Dechiffrement du fichier test.txt effectué.\n")
