@@ -94,6 +94,17 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
+def modify_entry(db_name, rowid, entry):
+    # Connect to database.
+    conn = sqlite3.connect(db_name)
+
+    # Create a cursor.
+    cursor = conn.cursor()
+
+    # Update Records. 
+    cursor.execute("UPDATE passwords SET ? = ? WHERE rowid = ? ", entry)
+
+
 def delete_entry(db_name, rowid):
     # Connect to database.
     conn = sqlite3.connect(db_name)
