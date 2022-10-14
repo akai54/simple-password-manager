@@ -94,7 +94,7 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
-def add_entry(db_name):
+#def add_entry(db_name):
 
 
 def load_database():
@@ -120,10 +120,10 @@ def new_database():
 
     # Create a Table.
     cursor.execute("""CREATE TABLE passwords (
-        #   site_name text,
-        #   username text,
-        #   pwd text
-        #   )""")
+        site_name text,
+        username text,
+        pwd text
+        )""")
 
     # Commit our command.
     conn.commit()
@@ -138,7 +138,7 @@ def choice():
             "Press q to exit.\n")
     choice = input()
     if choice == "n":
-        pass 
+        new_database()
     elif choice == "l":
         load_database()
     elif choice == "q":
@@ -150,7 +150,7 @@ def choice():
 if __name__ == "__main__":
     choice()
     rand_num = randint(0, 255)
-    enc_file_cbc([25, 0], "test.txt", rand_num)
+    #enc_file_cbc([25, 0], "test.txt", rand_num)
     #print("Chiffrement du fichier test.txt effectué en cbc.\n")
     #dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
     #print("Dechiffrement du fichier test.txt effectué.\n")
