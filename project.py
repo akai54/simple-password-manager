@@ -94,6 +94,9 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
+def add_entry(db_name):
+
+
 def load_database():
     print("please choose the database.\n")
     list_databases = []
@@ -108,13 +111,31 @@ def load_database():
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
+
+    # Connect to database.
+    conn = sqlite3.connect(name + ".db")
+
+    # Create a cursor.
+    cursor = conn.cursor()
+
+    # Create a Table.
+    cursor.execute("""CREATE TABLE passwords (
+        #   site_name text,
+        #   username text,
+        #   pwd text
+        #   )""")
+
+    # Commit our command.
+    conn.commit()
+    # Close our connection. 
+    conn.close()
     print(f'A new database named {name} has been created in this directory.\n')
 
 def choice():
     print("Simple Password manager.\n"
-          "Press n to create a new database.\n"
-          "Press l to load an existing database.\n"
-          "Press q to exit.\n")
+            "Press n to create a new database.\n"
+            "Press l to load an existing database.\n"
+            "Press q to exit.\n")
     choice = input()
     if choice == "n":
         pass 
