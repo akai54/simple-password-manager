@@ -94,7 +94,32 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
-def modify_entry(db_name, rowid, entry):
+def to_do():
+    print("Please press:\n"
+          "1.Modify an entry.\n"
+          "2.Delete an entry.\n"
+          "3.Add an entry.\n"
+          "4.Show all entries.\n"
+          "5.Exit.\n")
+    choix = input()
+    if choix == '1':
+        pass 
+    elif choix == '2':
+        to_delete = input("Please type the number of the entry to delete.")
+        delete_entry('eli.db', to_delete)
+    elif choix == '3':
+        site = input("Site name:")
+        usr = input("Username:")
+        pwd = input("Password:")
+        add_entry("eli.db", site, usr, pwd)
+    elif choix == '4':
+        show_db('eli.db')
+    elif choix == '5':
+        exit()
+
+
+def modify_entry(db_name, entry):
+    print(entry)
     # Connect to database.
     conn = sqlite3.connect(db_name)
 
@@ -102,8 +127,12 @@ def modify_entry(db_name, rowid, entry):
     cursor = conn.cursor()
 
     # Update Records. 
-    cursor.execute("UPDATE passwords SET ? = ? WHERE rowid = ? ", entry)
+    cursor.execute("UPDATE passwords SET ? = ? WHERE rowid = ?", entry)
 
+    # Commit our command.
+    conn.commit()
+    # Close our connection. 
+    conn.close()
 
 def delete_entry(db_name, rowid):
     # Connect to database.
@@ -167,7 +196,7 @@ def load_database():
         print(i, ",", val)
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f'You have chosen {list_databases[chosen_file]}.\n')
-    show_db(list_databases[chosen_file])
+    to_do()
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
@@ -211,7 +240,6 @@ if __name__ == "__main__":
     rand_num = randint(0, 255)
     choice()
     #add_entry("eli.db", "fb", "b", "1")
-    #show_db("eli.db")
     #enc_file_cbc([25, 0], "test.txt", rand_num)
     #print("Chiffrement du fichier test.txt effectué en cbc.\n")
     #dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
