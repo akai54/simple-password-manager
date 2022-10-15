@@ -94,7 +94,7 @@ def dec_file_cbc(key, filename, rand_num):
         #print(chr(_), end='')
     write_file(filename + ".dec2", text)
 
-def to_do():
+def to_do(db_name):
     print("Please press:\n"
           "1.Modify an entry.\n"
           "2.Delete an entry.\n"
@@ -105,17 +105,21 @@ def to_do():
     if choix == '1':
         pass 
     elif choix == '2':
-        to_delete = input("Please type the number of the entry to delete.")
-        delete_entry('eli.db', to_delete)
+        to_delete = input("Please type the number of the entry to delete:")
+        print('\n')
+        delete_entry(db_name, to_delete)
     elif choix == '3':
         site = input("Site name:")
         usr = input("Username:")
         pwd = input("Password:")
-        add_entry("eli.db", site, usr, pwd)
+        print('\n')
+        add_entry(db_name, site, usr, pwd)
     elif choix == '4':
-        show_db('eli.db')
+        show_db(db_name)
     elif choix == '5':
         exit()
+    else:
+        print("Please choose only between the available choices.\n")
 
 
 def modify_entry(db_name, entry):
@@ -133,6 +137,8 @@ def modify_entry(db_name, entry):
     conn.commit()
     # Close our connection. 
     conn.close()
+    
+    to_do(db_name)
 
 def delete_entry(db_name, rowid):
     # Connect to database.
@@ -149,6 +155,7 @@ def delete_entry(db_name, rowid):
     # Close our connection. 
     conn.close()
 
+    to_do(db_name)
 
 def show_db(db_name):
     # Connect to database.
@@ -169,6 +176,8 @@ def show_db(db_name):
     # Close our connection. 
     conn.close()
 
+    to_do(db_name)
+
 def add_entry(db_name, site, usr, pwd):
     # Connect to database.
     conn = sqlite3.connect(db_name)
@@ -184,6 +193,7 @@ def add_entry(db_name, site, usr, pwd):
     # Close our connection. 
     conn.close()
 
+    to_do(db_name)
 
 def load_database():
     print("please choose the database.\n")
@@ -196,7 +206,7 @@ def load_database():
         print(i, ",", val)
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f'You have chosen {list_databases[chosen_file]}.\n')
-    to_do()
+    to_do(list_databases[chosen_file])
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
@@ -219,6 +229,7 @@ def new_database():
     # Close our connection. 
     conn.close()
     print(f'A new database named {name} has been created in this directory.\n')
+    to_do(name + ".db")
 
 def choice():
     print("Simple Password manager.\n"

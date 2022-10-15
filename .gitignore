@@ -2,3 +2,4 @@ test.txt
 test.txt.enc2
 test.txt.enc2.dec2
 *.db
+venv/
