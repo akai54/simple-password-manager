@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import copy
 from random import randint
 from tabulate import tabulate
 
@@ -104,7 +105,20 @@ def dec_file_cbc(key, filename, rand_num):
     write_file(filename, text)
 
 
+my_pwd = []
+
+
+def set_my_pwd(pwd):
+    my_pwd[:] = list(pwd)
+
+
+def get_master_pwd():
+    return my_pwd
+
+
 def end_fun(master_pwd, db_name):
+    testo = get_master_pwd()
+    print(testo, master_pwd, db_name)
     enc_file_cbc(master_pwd, db_name, 7)
     os.system("cls" if os.name == "nt" else "clear")
     exit()
@@ -159,7 +173,8 @@ def to_do(db_name, master=""):
     elif choix == "4":
         show_db(db_name)
     elif choix == "5":
-        end_fun(master, db_name)
+        print(get_master_pwd())
+        end_fun(get_master_pwd(), db_name)
     else:
         print("Please choose only between the available choices.\n")
         to_do(db_name)
@@ -249,12 +264,12 @@ def load_database():
             list_databases.append(file)
 
     for i, val in enumerate(list_databases):
-        print(i, ",", val)
+        print(i, val)
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
     dec_file_cbc(master, list_databases[chosen_file], 7)
-    to_do(list_databases[chosen_file] + ".dec2", master)
+    to_do(list_databases[chosen_file])
 
 
 def new_database():
@@ -262,6 +277,7 @@ def new_database():
     name = name + ".db"
 
     master = enter_pwd()
+    set_my_pwd(master)
 
     # Connect to database.
     conn = sqlite3.connect(name)
@@ -285,7 +301,7 @@ def new_database():
     enc_file_cbc(master, name, 7)
     print(f"A new database named {name} has been created in this directory.\n")
     dec_file_cbc(master, name, 7)
-    to_do(name, master)
+    to_do(name)
 
 
 def choice():
