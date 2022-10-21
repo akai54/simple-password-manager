@@ -134,17 +134,17 @@ def to_do(db_name, master=""):
             new_site = input("Enter new site name: ")
             query = """UPDATE passwords SET site_name = ? WHERE rowid = ?"""
             data = (new_site, query_n)
-            modify_entry("eli.db", query, data)
+            modify_entry(db_name, query, data)
         elif to_change == "2":
             new_user = input("Enter new user name: ")
             query = """UPDATE passwords SET username = ? WHERE rowid = ?"""
             data = (new_user, query_n)
-            modify_entry("eli.db", query, data)
+            modify_entry(db_name, query, data)
         elif to_change == "3":
             new_pwd = input("Enter new password: ")
             query = """UPDATE passwords SET pwd = ? WHERE rowid = ?"""
             data = (new_pwd, query_n)
-            modify_entry("eli.db", query, data)
+            modify_entry(db_name, query, data)
 
     elif choix == "2":
         to_delete = input("Please type the number of the entry to delete:")
@@ -162,7 +162,7 @@ def to_do(db_name, master=""):
         end_fun(master, db_name)
     else:
         print("Please choose only between the available choices.\n")
-        to_do(dbname)
+        to_do(db_name)
 
 
 def modify_entry(db_name, query, entry):
