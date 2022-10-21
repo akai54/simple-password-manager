@@ -88,7 +88,7 @@ def enc_file_cbc(key, filename, rand_num):
     for octet in byte:
         text.append(enc_byte(key, rand_num ^ octet))
         rand_num = enc_byte(key, rand_num ^ octet)
-    write_file(filename + ".enc2", text)
+    write_file(filename, text)
 
 
 def dec_file_cbc(key, filename, rand_num):
@@ -101,7 +101,13 @@ def dec_file_cbc(key, filename, rand_num):
         rand_num = octet
     # for _ in text:
     # print(chr(_), end='')
-    write_file(filename + ".dec2", text)
+    write_file(filename, text)
+
+
+def end_fun(master_pwd, db_name):
+    enc_file_cbc(master_pwd, db_name, 7)
+    os.system("cls" if os.name == "nt" else "clear")
+    exit()
 
 
 def enter_pwd():
@@ -110,7 +116,7 @@ def enter_pwd():
     return tab
 
 
-def to_do(db_name):
+def to_do(db_name, master=""):
     print(
         "Please press:\n"
         "1.Modify an entry.\n"
@@ -153,11 +159,10 @@ def to_do(db_name):
     elif choix == "4":
         show_db(db_name)
     elif choix == "5":
-        enc_file_cbc(tab, db_name, 7)
-        os.system("cls" if os.name == "nt" else "clear")
-        exit()
+        end_fun(master, db_name)
     else:
         print("Please choose only between the available choices.\n")
+        to_do(dbname)
 
 
 def modify_entry(db_name, query, entry):
@@ -240,7 +245,7 @@ def load_database():
     print("please choose the database.\n")
     list_databases = []
     for file in os.listdir():
-        if file.endswith(".enc2"):
+        if file.endswith(".db"):
             list_databases.append(file)
 
     for i, val in enumerate(list_databases):
@@ -249,13 +254,17 @@ def load_database():
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
     dec_file_cbc(master, list_databases[chosen_file], 7)
+    to_do(list_databases[chosen_file] + ".dec2", master)
 
 
 def new_database():
     name = input("Please enter the name of this new database.\n")
+    name = name + ".db"
+
+    master = enter_pwd()
 
     # Connect to database.
-    conn = sqlite3.connect(name + ".db")
+    conn = sqlite3.connect(name)
 
     # Create a cursor.
     cursor = conn.cursor()
@@ -273,8 +282,10 @@ def new_database():
     conn.commit()
     # Close our connection.
     conn.close()
+    enc_file_cbc(master, name, 7)
     print(f"A new database named {name} has been created in this directory.\n")
-    to_do(name + ".db")
+    dec_file_cbc(master, name, 7)
+    to_do(name, master)
 
 
 def choice():
@@ -298,9 +309,9 @@ def choice():
 
 
 if __name__ == "__main__":
-    # choice()
+    choice()
     # add_entry("eli.db", "fb", "b", "1")
-    #enc_file_cbc(tab2, "test.txt", 7)
-    #dec_file_cbc([0], "test.txt.enc2", 7)
+    # enc_file_cbc([2, 4], "eli.db", 7)
+    # dec_file_cbc([0], "test.txt.enc2", 7)
     # print("Chiffrement du fichier test.txt effectué en cbc.\n")
     # print("Dechiffrement du fichier test.txt effectué.\n")
