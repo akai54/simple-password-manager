@@ -104,6 +104,12 @@ def dec_file_cbc(key, filename, rand_num):
     write_file(filename + ".dec2", text)
 
 
+def enter_pwd():
+    master_pwd = input("Please enter your Master Password: ")
+    tab = [ord(c) for c in master_pwd]
+    return tab
+
+
 def to_do(db_name):
     print(
         "Please press:\n"
@@ -147,6 +153,7 @@ def to_do(db_name):
     elif choix == "4":
         show_db(db_name)
     elif choix == "5":
+        enc_file_cbc(tab, db_name, 7)
         os.system("cls" if os.name == "nt" else "clear")
         exit()
     else:
@@ -233,14 +240,15 @@ def load_database():
     print("please choose the database.\n")
     list_databases = []
     for file in os.listdir():
-        if file.endswith(".dec2"):
+        if file.endswith(".enc2"):
             list_databases.append(file)
 
     for i, val in enumerate(list_databases):
         print(i, ",", val)
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f"You have chosen {list_databases[chosen_file]}\n")
-    to_do(list_databases[chosen_file])
+    master = enter_pwd()
+    dec_file_cbc(master, list_databases[chosen_file], 7)
 
 
 def new_database():
@@ -290,12 +298,9 @@ def choice():
 
 
 if __name__ == "__main__":
-    rand_num = randint(0, 255)
     # choice()
     # add_entry("eli.db", "fb", "b", "1")
-    pss = "hello"
-    tab = [ord(c) for c in pss]
-    enc_file_cbc(tab, "test.txt", rand_num)
+    #enc_file_cbc(tab2, "test.txt", 7)
+    #dec_file_cbc([0], "test.txt.enc2", 7)
     # print("Chiffrement du fichier test.txt effectué en cbc.\n")
-    dec_file_cbc(tab, "test.txt.enc2", rand_num)
     # print("Dechiffrement du fichier test.txt effectué.\n")
