@@ -3,29 +3,31 @@ import sqlite3
 from random import randint
 from tabulate import tabulate
 
-sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
+# sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
 
 
 def round(key, msg):
-    return sbox[msg ^ key]
+    return msg ^ key
 
 
 def enc(key, msg):
-    tmp = round(key[0], msg)
-    res = round(key[1], tmp)
+    for e in key:
+        tmp = round(e, msg)
+        res = round(e, tmp)
     return res
 
 
-xobs = [sbox.index(n) for n in range(0, 16)]
+# xobs = [sbox.index(n) for n in range(0, 16)]
 
 
 def back_round(k, c):
-    return xobs[c] ^ k
+    return c ^ k
 
 
 def dec(key, ctxt):
-    tmp = back_round(key[1], ctxt)
-    res = back_round(key[0], tmp)
+    for e in key:
+        tmp = back_round(e, ctxt)
+        res = back_round(e, tmp)
     return res
 
 
@@ -289,9 +291,11 @@ def choice():
 
 if __name__ == "__main__":
     rand_num = randint(0, 255)
-    choice()
+    # choice()
     # add_entry("eli.db", "fb", "b", "1")
-    # enc_file_cbc([25, 0], "test.txt", rand_num)
+    pss = "hello"
+    tab = [ord(c) for c in pss]
+    enc_file_cbc(tab, "test.txt", rand_num)
     # print("Chiffrement du fichier test.txt effectué en cbc.\n")
-    # dec_file_cbc([9, 0], "test.txt.enc2", rand_num)
+    dec_file_cbc(tab, "test.txt.enc2", rand_num)
     # print("Dechiffrement du fichier test.txt effectué.\n")
