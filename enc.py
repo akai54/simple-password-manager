@@ -43,6 +43,12 @@ def dec_byte(key, ctxt):
     return final
 
 
+def write_file_enc(file, cont):
+    f = open(file, "wb")
+    f.write(cont)
+    f.close()
+
+
 def write_file(file, cont):
     f = open(file, "wb")
     f.write(bytes(cont))
@@ -57,15 +63,20 @@ def enc_file_cbc(key, filename, rand_num):
     for octet in byte:
         text.append(enc_byte(key, rand_num ^ octet))
         rand_num = enc_byte(key, rand_num ^ octet)
-    write_file(filename, text)
+    packed = pack("i" * len(text), *text)
+    write_file_enc(filename, packed)
 
 
 def dec_file_cbc(key, filename, rand_num):
     file = open(filename, "rb")
     byte = file.read()
     file.close()
-    text = []
-    for octet in byte:
-        text.append(dec_byte(key, octet) ^ rand_num)
+    byte_len = len(byte)
+    int_byte_len = int(byte_len / 4)
+    unpacked = unpack("i" * int_byte_len, byte)
+    text_chiffrer = list(unpacked)
+    res = []
+    for octet in text_chiffrer:
+        res.append(dec_byte(key, octet) ^ rand_num)
         rand_num = octet
-    write_file(filename, text)
+    write_file(filename + ".dec2", res)
