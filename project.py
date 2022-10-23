@@ -1,9 +1,8 @@
 import os
 import sqlite3
 import copy
-import enc.py
 
-from sbox_list import sbox
+from enc import *
 from random import randint
 from tabulate import tabulate
 
@@ -239,8 +238,3 @@ def choice():
 
 if __name__ == "__main__":
     choice()
-    # add_entry("eli.db", "fb", "b", "1")
-    # enc_file_cbc([2, 4], "eli.db", 7)
-    # dec_file_cbc([0], "test.txt.enc2", 7)
-    # print("Chiffrement du fichier test.txt effectué en cbc.\n")
-    # print("Dechiffrement du fichier test.txt effectué.\n")
