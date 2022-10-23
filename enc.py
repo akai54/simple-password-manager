@@ -1,3 +1,6 @@
+from sbox_list import sbox
+
+
 def round(key, msg):
     return sbox[msg ^ key]
 
