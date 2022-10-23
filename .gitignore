@@ -1,6 +1,6 @@
 test.txt 
-test.txt.enc2
-test.txt.enc2.dec2
+*.enc
+*.dec
 *.db
 venv/
 __pycache__/
