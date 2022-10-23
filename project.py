@@ -181,7 +181,7 @@ def load_database():
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
     set_my_pwd(master)
-    dec_file_cbc(master, list_databases[chosen_file], 7)
+    dec_file_cbc([15, 0], list_databases[chosen_file], 7)
     to_do(list_databases[chosen_file])
 
 
@@ -211,7 +211,7 @@ def new_database():
     conn.commit()
     # Close our connection.
     conn.close()
-    enc_file_cbc(master, name, 7)
+    enc_file_cbc([15, 0], name, 7)
     print(f"A new database named {name} has been created in this directory.\n")
     # dec_file_cbc(master, name, 7)
     # to_do(name)
@@ -237,4 +237,4 @@ def choice():
 
 
 if __name__ == "__main__":
-    choice()
+    #choice()

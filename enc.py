@@ -64,6 +64,7 @@ def enc_file_cbc(key, filename, rand_num):
         text.append(enc_byte(key, rand_num ^ octet))
         rand_num = enc_byte(key, rand_num ^ octet)
     packed = pack("i" * len(text), *text)
+    print(text, packed)
     write_file_enc(filename, packed)
 
 
@@ -79,4 +80,4 @@ def dec_file_cbc(key, filename, rand_num):
     for octet in text_chiffrer:
         res.append(dec_byte(key, octet) ^ rand_num)
         rand_num = octet
-    write_file(filename + ".dec2", res)
+    write_file(filename, res)
