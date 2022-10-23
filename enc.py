@@ -1,4 +1,5 @@
 from sbox_list import sbox
+from struct import pack, unpack
 
 
 def round(key, msg):
@@ -6,9 +7,8 @@ def round(key, msg):
 
 
 def enc(key, msg):
-    for e in key:
-        tmp = round(e, msg)
-        res = round(e, tmp)
+    tmp = round(key[0], msg)
+    res = round(key[1], tmp)
     return res
 
 
@@ -20,9 +20,8 @@ def back_round(k, c):
 
 
 def dec(key, ctxt):
-    for e in key:
-        tmp = back_round(e, ctxt)
-        res = back_round(e, tmp)
+    tmp = back_round(key[1], ctxt)
+    res = back_round(key[0], tmp)
     return res
 
 
@@ -44,35 +43,10 @@ def dec_byte(key, ctxt):
     return final
 
 
-def enc_ascii(key, msg):
-    return enc_byte(key, ord(msg))
-
-
-def dec_ascii(key, ctxt):
-    resultat = dec_byte(key, ctxt)
-    return chr(resultat)
-
-
 def write_file(file, cont):
     f = open(file, "wb")
     f.write(bytes(cont))
     f.close()
-
-
-def enc_file(key, file):
-    text = []
-    with open(file, "rb") as f:
-        while byte := f.read(1):
-            text.append(enc_byte(key, ord(byte)))
-    write_file(file + ".enc", text)
-
-
-def dec_file(key, file):
-    text = []
-    with open(file, "rb") as f:
-        while byte := f.read(1):
-            text.append(dec_byte(key, int.from_bytes(byte, "big")))
-    write_file(file + ".dec", text)
 
 
 def enc_file_cbc(key, filename, rand_num):
