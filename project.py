@@ -237,4 +237,6 @@ def choice():
 
 
 if __name__ == "__main__":
-    #choice()
+    # choice()
+    enc_file_cbc([15, 15], "test.txt", 7)
+    dec_file_cbc([15, 15], "test.txtenc", 7)

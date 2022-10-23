@@ -1,6 +1,8 @@
 from sbox_list import sbox
 from struct import pack, unpack
 
+# sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
+
 
 def round(key, msg):
     return sbox[msg ^ key]
@@ -9,10 +11,11 @@ def round(key, msg):
 def enc(key, msg):
     tmp = round(key[0], msg)
     res = round(key[1], tmp)
+    print(key, msg, tmp, res)
     return res
 
 
-xobs = [sbox.index(n) for n in range(0, 1001)]
+xobs = [sbox.index(n) for n in range(0, 256)]
 
 
 def back_round(k, c):
@@ -44,8 +47,10 @@ def dec_byte(key, ctxt):
 
 
 def write_file_enc(file, cont):
+    packed = pack("i" * len(cont), *cont)
+    print(cont, packed)
     f = open(file, "wb")
-    f.write(cont)
+    f.write(packed)
     f.close()
 
 
@@ -63,21 +68,32 @@ def enc_file_cbc(key, filename, rand_num):
     for octet in byte:
         text.append(enc_byte(key, rand_num ^ octet))
         rand_num = enc_byte(key, rand_num ^ octet)
-    packed = pack("i" * len(text), *text)
-    print(text, packed)
-    write_file_enc(filename, packed)
+        print(chr(octet), octet, text)
+    write_file_enc(filename + "enc", text)
 
 
 def dec_file_cbc(key, filename, rand_num):
+    # Reading file.
     file = open(filename, "rb")
     byte = file.read()
     file.close()
+
+    # byte size
     byte_len = len(byte)
     int_byte_len = int(byte_len / 4)
+
     unpacked = unpack("i" * int_byte_len, byte)
     text_chiffrer = list(unpacked)
     res = []
+
     for octet in text_chiffrer:
         res.append(dec_byte(key, octet) ^ rand_num)
         rand_num = octet
-    write_file(filename, res)
+
+    print(f"\nbyte: {byte}")
+    print(f"\nbyte_len: {byte_len}")
+    print(f"\nunpacked: {unpacked}")
+    print(f"\ntext_chiffrer: {text_chiffrer}")
+    print(f"\nres: {res}")
+
+    write_file(filename + "dec", res)
