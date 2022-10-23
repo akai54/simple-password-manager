@@ -146,5 +146,5 @@ def dec_file_cbc(filename):
     write_file(filename + ".dec", dec_text)
 
 
-enc_file_cbc("test.txt")
-dec_file_cbc("test.txt.enc")
+# enc_file_cbc("test.txt")
+# dec_file_cbc("test.txt.enc")
