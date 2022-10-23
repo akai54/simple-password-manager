@@ -1,4 +1,4 @@
-from sbox_list import sbox
+"""from sbox_list import sbox
 from struct import pack, unpack
 
 # sbox = [12, 5, 6, 11, 9, 0, 10, 13, 3, 14, 15, 8, 4, 7, 1, 2]
@@ -15,7 +15,7 @@ def enc(key, msg):
     return res
 
 
-xobs = [sbox.index(n) for n in range(0, 256)]
+xobs = [sbox.index(n) for n in range(0, 32)]
 
 
 def back_round(k, c):
@@ -97,3 +97,54 @@ def dec_file_cbc(key, filename, rand_num):
     print(f"\nres: {res}")
 
     write_file(filename + "dec", res)
+    """
+
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import binascii
+
+key = pad(b"mykey", AES.block_size)
+iv = pad(b"0000111122223333", AES.block_size)
+
+
+def write_file(file, cont):
+    f = open(file, "wb")
+    f.write(bytes(cont))
+    f.close()
+
+
+def encrypt(plaintext):
+    data_bytes = bytes(plaintext, "utf8")
+    padded_bytes = pad(data_bytes, AES.block_size)
+    AES_obj = AES.new(key, AES.MODE_CBC, iv)
+    ciphertext = AES_obj.encrypt(padded_bytes)
+    return ciphertext
+
+
+def decrypt(ciphertext):
+    AES_obj = AES.new(key, AES.MODE_CBC, iv)
+    raw_bytes = AES_obj.decrypt(ciphertext)
+    extracted_bytes = unpad(raw_bytes, AES.block_size)
+    return extracted_bytes
+
+
+def enc_file_cbc(filename):
+    file = open(filename, "rb")
+    byte = file.read()
+    file.close()
+    plaintext = byte.decode("ascii")
+    enc_text = encrypt(plaintext)
+    write_file(filename + ".enc", enc_text)
+
+
+def dec_file_cbc(filename):
+    # Reading file.
+    file = open(filename, "rb")
+    byte = file.read()
+    file.close()
+    dec_text = decrypt(byte)
+    write_file(filename + ".dec", dec_text)
+
+
+enc_file_cbc("test.txt")
+dec_file_cbc("test.txt.enc")
