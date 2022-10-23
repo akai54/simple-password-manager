@@ -9,18 +9,18 @@ from tabulate import tabulate
 my_pwd = []
 
 
-def set_my_pwd(pwd):
+def set_master_pwd(pwd):
     my_pwd[:] = list(pwd)
 
 
 def get_master_pwd():
-    return my_pwd
+    return "".join(my_pwd)
 
 
 def end_fun(master_pwd, db_name):
     testo = get_master_pwd()
     print(testo, master_pwd, db_name)
-    enc_file_cbc(master_pwd, db_name, 7)
+    enc_file_cbc(master_pwd, db_name)
     os.system("cls" if os.name == "nt" else "clear")
     exit()
 
@@ -180,8 +180,8 @@ def load_database():
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
-    set_my_pwd(master)
-    dec_file_cbc([15, 0], list_databases[chosen_file], 7)
+    set_master_pwd(master)
+    dec_file_cbc(master, list_databases[chosen_file])
     to_do(list_databases[chosen_file])
 
 
@@ -190,7 +190,7 @@ def new_database():
     name = name + ".db"
 
     master = enter_pwd()
-    set_my_pwd(master)
+    set_master_pwd(master)
 
     # Connect to database.
     conn = sqlite3.connect(name)
@@ -211,9 +211,9 @@ def new_database():
     conn.commit()
     # Close our connection.
     conn.close()
-    enc_file_cbc([15, 0], name, 7)
+    enc_file_cbc(master, name)
     print(f"A new database named {name} has been created in this directory.\n")
-    # dec_file_cbc(master, name, 7)
+    # dec_file_cbc(master, name)
     # to_do(name)
 
 
@@ -238,5 +238,3 @@ def choice():
 
 if __name__ == "__main__":
     # choice()
-    enc_file_cbc([15, 15], "test.txt", 7)
-    dec_file_cbc([15, 15], "test.txtenc", 7)

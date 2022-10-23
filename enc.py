@@ -101,10 +101,9 @@ def dec_file_cbc(key, filename, rand_num):
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-import binascii
 
-key = pad(b"mykey", AES.block_size)
-iv = pad(b"0000111122223333", AES.block_size)
+# key = pad(b"mykey", AES.block_size)
+iv = pad(b"test", AES.block_size)
 
 
 def write_file(file, cont):
@@ -113,7 +112,7 @@ def write_file(file, cont):
     f.close()
 
 
-def encrypt(plaintext):
+def encrypt(key, plaintext):
     data_bytes = bytes(plaintext, "utf8")
     padded_bytes = pad(data_bytes, AES.block_size)
     AES_obj = AES.new(key, AES.MODE_CBC, iv)
@@ -121,30 +120,32 @@ def encrypt(plaintext):
     return ciphertext
 
 
-def decrypt(ciphertext):
+def decrypt(key, ciphertext):
     AES_obj = AES.new(key, AES.MODE_CBC, iv)
     raw_bytes = AES_obj.decrypt(ciphertext)
     extracted_bytes = unpad(raw_bytes, AES.block_size)
     return extracted_bytes
 
 
-def enc_file_cbc(filename):
+def enc_file_cbc(key_user, filename):
     file = open(filename, "rb")
     byte = file.read()
     file.close()
+    key = pad(key_user.encode("ascii"), AES.block_size)
     plaintext = byte.decode("ascii")
-    enc_text = encrypt(plaintext)
-    write_file(filename + ".enc", enc_text)
+    enc_text = encrypt(key, plaintext)
+    write_file(filename, enc_text)
 
 
-def dec_file_cbc(filename):
+def dec_file_cbc(key_user, filename):
     # Reading file.
     file = open(filename, "rb")
     byte = file.read()
     file.close()
-    dec_text = decrypt(byte)
-    write_file(filename + ".dec", dec_text)
+    key = pad(key_user.encode("ascii"), AES.block_size)
+    dec_text = decrypt(key, byte)
+    write_file(filename, dec_text)
 
 
-# enc_file_cbc("test.txt")
-# dec_file_cbc("test.txt.enc")
+enc_file_cbc("secret", "test.txt")
+dec_file_cbc("secret", "test.txt")
