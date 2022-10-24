@@ -19,7 +19,6 @@ def get_master_pwd():
 
 def end_fun(master_pwd, db_name):
     testo = get_master_pwd()
-    print(testo, master_pwd, db_name)
     enc_file_cbc(master_pwd, db_name)
     os.system("cls" if os.name == "nt" else "clear")
     exit()
@@ -27,7 +26,7 @@ def end_fun(master_pwd, db_name):
 
 def enter_pwd():
     master_pwd = input("Please enter your Master Password: ")
-    tab = [ord(c) for c in master_pwd]
+    tab = [master_pwd]
     return tab
 
 
@@ -181,7 +180,7 @@ def load_database():
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
     set_master_pwd(master)
-    dec_file_cbc(master, list_databases[chosen_file])
+    # dec_file_cbc(get_master_pwd(), list_databases[chosen_file])
     to_do(list_databases[chosen_file])
 
 
@@ -211,9 +210,10 @@ def new_database():
     conn.commit()
     # Close our connection.
     conn.close()
-    enc_file_cbc(master, name)
+    print(get_master_pwd())
+    enc_file_cbc(get_master_pwd(), name)
     print(f"A new database named {name} has been created in this directory.\n")
-    # dec_file_cbc(master, name)
+    # dec_file_cbc(get_master_pwd(), name)
     # to_do(name)
 
 
@@ -237,4 +237,4 @@ def choice():
 
 
 if __name__ == "__main__":
-    # choice()
+    choice()
