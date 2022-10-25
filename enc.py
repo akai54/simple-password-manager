@@ -178,7 +178,6 @@ derived = False
 def set_final(key):
     global final_key
     final_key = key
-    print(final_key)
 
 
 def get_final():
@@ -194,7 +193,6 @@ def enc_fernet(key, filename):
         test = kdf.derive(password)
         key_2 = base64.urlsafe_b64encode(test)
         set_final(key_2)
-        print(password, key_2, test)
         fernet = Fernet(key_2)
         encrypted = fernet.encrypt(original)
         with open(filename, "wb") as encrypted_file:
@@ -213,7 +211,6 @@ def dec_fernet(key, filename):
         password = key.encode()
         key_2 = base64.urlsafe_b64encode(kdf.derive(password))
         set_final(key_2)
-        print(password, key_2)
         fernet = Fernet(key_2)
         with open(filename, "rb") as f:
             encrypted = f.read()
@@ -228,7 +225,3 @@ def dec_fernet(key, filename):
         decrypted = fernet.decrypt(encrypted)
         with open(filename, "wb") as decrypted_file:
             decrypted_file.write(decrypted)
-
-
-enc_fernet("LeonardoAAA9u05324@#@", "test.txt")
-dec_fernet("LeonardoAAA9u05324@#@", "test.txt")
