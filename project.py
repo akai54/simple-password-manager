@@ -3,7 +3,6 @@ import sqlite3
 import copy
 
 from enc import *
-from random import randint
 from tabulate import tabulate
 
 my_pwd = None
