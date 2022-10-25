@@ -18,9 +18,8 @@ def get_master_pwd():
     return my_pwd
 
 
-def end_fun(master_pwd, db_name):
-    testo = get_master_pwd()
-    enc_fernet(master_pwd, db_name)
+def end_fun(db_name):
+    enc_fernet(get_master_pwd(), db_name)
     os.system("cls" if os.name == "nt" else "clear")
     exit()
 
@@ -79,12 +78,12 @@ def to_do(db_name, master=""):
             show_db(db_name)
         elif choix == "5":
             print(get_master_pwd())
-            end_fun(get_master_pwd(), db_name)
+            end_fun(db_name)
         else:
             print("Please choose only between the available choices.\n")
             to_do(db_name)
     except Exception as e:
-        end_fun(get_master_pwd(), db_name)
+        end_fun(db_name)
 
 
 def modify_entry(db_name, query, entry):
