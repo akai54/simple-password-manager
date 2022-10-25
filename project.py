@@ -6,15 +6,16 @@ from enc import *
 from random import randint
 from tabulate import tabulate
 
-my_pwd = []
+my_pwd = None
 
 
 def set_master_pwd(pwd):
-    my_pwd[:] = list(pwd)
+    global my_pwd
+    my_pwd = pwd
 
 
 def get_master_pwd():
-    return "".join(my_pwd)
+    return my_pwd
 
 
 def end_fun(master_pwd, db_name):
