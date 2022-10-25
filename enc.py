@@ -28,11 +28,13 @@ final_key = None
 derived = False
 
 
+# set the password.
 def set_final(key):
     global final_key
     final_key = key
 
 
+# get the password.
 def get_final():
     return final_key
 
@@ -40,6 +42,7 @@ def get_final():
 def enc_fernet(key, filename):
     with open(filename, "rb") as f:
         original = f.read()
+    # Check if it's the first time we use the kdf key.
     global derived
     if derived is False:
         password = key.encode()
@@ -51,6 +54,7 @@ def enc_fernet(key, filename):
         with open(filename, "wb") as encrypted_file:
             encrypted_file.write(encrypted)
         derived = True
+    # If it's not the first time, then use the key generated before.
     else:
         fernet = Fernet(get_final())
         encrypted = fernet.encrypt(original)
@@ -59,6 +63,7 @@ def enc_fernet(key, filename):
 
 
 def dec_fernet(key, filename):
+    # Check if it's the first time we use the kdf key.
     global derived
     if derived is False:
         password = key.encode()
@@ -71,6 +76,7 @@ def dec_fernet(key, filename):
         with open(filename, "wb") as decrypted_file:
             decrypted_file.write(decrypted)
         derived = True
+    # If it's not the first time, then use the key generated before.
     else:
         fernet = Fernet(get_final())
         with open(filename, "rb") as f:
