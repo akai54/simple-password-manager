@@ -26,8 +26,7 @@ def end_fun(db_name):
 
 def enter_pwd():
     master_pwd = input("Please enter your Master Password: ")
-    tab = [master_pwd]
-    return tab
+    return master_pwd
 
 
 def to_do(db_name, master=""):
@@ -170,7 +169,7 @@ def load_database():
             list_databases.append(file)
 
     if len(list_databases) == 0:
-        print("There are no available databses in the current directory.\n")
+        print("There are no available databases in the current directory.\n")
         exit()
     for i, val in enumerate(list_databases):
         print(i, val)
