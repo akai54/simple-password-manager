@@ -180,11 +180,8 @@ def load_database():
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
     set_master_pwd(master)
-    try:
-        dec_fernet(get_master_pwd(), list_databases[chosen_file])
-        to_do(list_databases[chosen_file])
-    except Exception as e:
-        to_do(list_databases[chosen_file])
+    dec_fernet(get_master_pwd(), list_databases[chosen_file])
+    to_do(list_databases[chosen_file])
 
 
 def new_database():
