@@ -82,8 +82,6 @@ def to_do(db_name, master=""):
         else:
             print("Please choose only between the available choices.\n")
             to_do(db_name)
-    except KeyboardInterrupt:
-        end_fun(get_master_pwd(), db_name)
     except Exception as e:
         end_fun(get_master_pwd(), db_name)
 
