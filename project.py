@@ -19,7 +19,7 @@ def get_master_pwd():
 
 def end_fun(master_pwd, db_name):
     testo = get_master_pwd()
-    enc_file_cbc(master_pwd, db_name)
+    enc_fernet(master_pwd, db_name)
     os.system("cls" if os.name == "nt" else "clear")
     exit()
 
@@ -180,8 +180,11 @@ def load_database():
     print(f"You have chosen {list_databases[chosen_file]}\n")
     master = enter_pwd()
     set_master_pwd(master)
-    # dec_file_cbc(get_master_pwd(), list_databases[chosen_file])
-    to_do(list_databases[chosen_file])
+    try:
+        dec_fernet(get_master_pwd(), list_databases[chosen_file])
+        to_do(list_databases[chosen_file])
+    except Exception as e:
+        to_do(list_databases[chosen_file])
 
 
 def new_database():
@@ -200,21 +203,18 @@ def new_database():
     # Create a Table.
     cursor.execute(
         """CREATE TABLE passwords (
-        site_name text,
-        username text,
-        pwd text
-        )"""
+                site_name text,
+                username text,
+                pwd text
+                )"""
     )
 
     # Commit our command.
     conn.commit()
     # Close our connection.
     conn.close()
-    print(get_master_pwd())
-    enc_file_cbc(get_master_pwd(), name)
     print(f"A new database named {name} has been created in this directory.\n")
-    # dec_file_cbc(get_master_pwd(), name)
-    # to_do(name)
+    to_do(name)
 
 
 def choice():
