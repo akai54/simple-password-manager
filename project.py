@@ -85,79 +85,91 @@ def to_do(db_name, master=""):
 
 
 def modify_entry(db_name, query, entry):
-    # Connect to database.
-    conn = sqlite3.connect(db_name)
+    try:
+        # Connect to database.
+        conn = sqlite3.connect(db_name)
 
-    # Create a cursor.
-    cursor = conn.cursor()
+        # Create a cursor.
+        cursor = conn.cursor()
 
-    # Update Records.
-    cursor.execute(query, entry)
+        # Update Records.
+        cursor.execute(query, entry)
 
-    # Commit our command.
-    conn.commit()
-    # Close our connection.
-    conn.close()
+        # Commit our command.
+        conn.commit()
+        # Close our connection.
+        conn.close()
 
-    to_do(db_name)
+        to_do(db_name)
+    except Exception as e:
+        end_fun(db_name)
 
 
 def delete_entry(db_name, rowid):
-    # Connect to database.
-    conn = sqlite3.connect(db_name)
+    try:
+        # Connect to database.
+        conn = sqlite3.connect(db_name)
 
-    # Create a cursor.
-    cursor = conn.cursor()
+        # Create a cursor.
+        cursor = conn.cursor()
 
-    # Delete Records.
-    cursor.execute("DELETE FROM passwords WHERE rowid = ?", rowid)
+        # Delete Records.
+        cursor.execute("DELETE FROM passwords WHERE rowid = ?", rowid)
 
-    # Commit our command.
-    conn.commit()
-    # Close our connection.
-    conn.close()
+        # Commit our command.
+        conn.commit()
+        # Close our connection.
+        conn.close()
 
-    to_do(db_name)
+        to_do(db_name)
+    except Exception as e:
+        end_fun(db_name)
 
 
 def show_db(db_name):
-    # Connect to database.
-    conn = sqlite3.connect(db_name)
+    try:
+        # Connect to database.
+        conn = sqlite3.connect(db_name)
 
-    # Create a cursor.
-    cursor = conn.cursor()
+        # Create a cursor.
+        cursor = conn.cursor()
 
-    # Query the db.
-    cursor.execute("SELECT rowid, * FROM passwords")
+        # Query the db.
+        cursor.execute("SELECT rowid, * FROM passwords")
 
-    # Commit our command.
-    conn.commit()
+        # Commit our command.
+        conn.commit()
 
-    # Print the whole db.
-    print(tabulate(cursor.fetchall()))
+        # Print the whole db.
+        print(tabulate(cursor.fetchall()))
 
-    # Close our connection.
-    conn.close()
+        # Close our connection.
+        conn.close()
 
-    to_do(db_name)
+        to_do(db_name)
+    except Exception as e:
+        end_fun(db_name)
 
 
 def add_entry(db_name, site, usr, pwd):
-    # Connect to database.
-    conn = sqlite3.connect(db_name)
+    try:
+        # Connect to database.
+        conn = sqlite3.connect(db_name)
 
-    # Create a cursor.
-    cursor = conn.cursor()
+        # Create a cursor.
+        cursor = conn.cursor()
 
-    # Insert one Record into Table.
-    cursor.execute("INSERT INTO passwords VALUES (?, ?, ?)", (site, usr, pwd))
+        # Insert one Record into Table.
+        cursor.execute("INSERT INTO passwords VALUES (?, ?, ?)", (site, usr, pwd))
 
-    # Commit our command.
-    conn.commit()
-    # Close our connection.
-    conn.close()
+        # Commit our command.
+        conn.commit()
+        # Close our connection.
+        conn.close()
 
-    to_do(db_name)
+        to_do(db_name)
+    except Exception as e:
+        end_fun(db_name)
 
 
 def load_database():
