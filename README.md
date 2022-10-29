@@ -19,6 +19,7 @@ This is actually a project assignment for the course [Introduction to Security](
 - Clear clipboard automatically.
 - Automatically close if inactivity.
 - Generate random passwords.
+- Search for a specific entry.
 
 ## Usage
 
