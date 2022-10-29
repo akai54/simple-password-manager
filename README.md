@@ -40,9 +40,9 @@ the Fernet encryption for this project, thanks to the cryptography lib. It is si
 
 ## Resources
 
-- ![](https://stackoverflow.com/questions/70410259/when-i-am-trying-to-use-cryptography-pbkdf2-hash-in-python-but-when-i-enter-a-wr)
-- ![](https://stackoverflow.com/questions/44432945/generating-own-key-with-python-fernet)
-- ![](https://www.geeksforgeeks.org/encrypt-and-decrypt-files-using-python/)
-- ![](https://stackoverflow.com/questions/16512284/how-to-unpack-from-a-binary-file-a-byte-array-using-python)
-- ![](https://www.tutorialkart.com/python/how-to-find-length-of-bytes-in-python/)
-- ![](https://www.pythonmorsels.com/reading-binary-files-in-python/)
+- ![stackoverflow](https://stackoverflow.com/questions/70410259/when-i-am-trying-to-use-cryptography-pbkdf2-hash-in-python-but-when-i-enter-a-wr)
+- ![stackoverflow](https://stackoverflow.com/questions/44432945/generating-own-key-with-python-fernet)
+- ![stackoverflow](https://stackoverflow.com/questions/16512284/how-to-unpack-from-a-binary-file-a-byte-array-using-python)
+- ![geeksforgeeks](https://www.geeksforgeeks.org/encrypt-and-decrypt-files-using-python/)
+- ![tutorialkart](https://www.tutorialkart.com/python/how-to-find-length-of-bytes-in-python/)
+- ![pythonmorsels](https://www.pythonmorsels.com/reading-binary-files-in-python/)
