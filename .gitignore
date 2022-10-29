@@ -4,4 +4,3 @@ test.txt
 *.db
 venv/
 __pycache__/
-screenshots/
