@@ -37,20 +37,20 @@ python3 project.py
 
 ## Explanations
 
-`mysalt`: is the salt mixed with the Master key for encryption and decryption.
-`final_key`: is the result of the mix between the Master key and the salt.
-`derived`: when using the kdf for the mix, it's only possible to call it once,
-so this boolean will tell us if we already mixed anything or not yet, and according
-to that we use different parts of the code for encrypting and decrypting.
-`kdf`: is used for deriving a cryptographic key from the Master password.
-`enc_fernet`: is the function used to encrypt the database, we start by reading,
-the unencrypted database in a binary way, then we check if we already used the kdf,
-if not we start by transforming the user's password into bytes then derive it with kdf,
-after that is the final step which consist of using the `base64.urlsafe_b64encode` method.
-`base64.urlsafe_b64encode`: is the method that encodes the result of the mixing into a binary form.
-Then we use that key as the final one in order to encrypt the database.
-`dec_fernet`: is the function used to decrypt the database, it is exactly the same as,
-`enc_fernet` we just use the decrypt method to decrypt the file instead of the encrypt method.
+- `mysalt`: is the salt mixed with the Master key for encryption and decryption.
+- `final_key`: is the result of the mix between the Master key and the salt.
+- `derived`: when using the kdf for the mix, it's only possible to call it once,
+  so this boolean will tell us if we already mixed anything or not yet, and according
+  to that we use different parts of the code for encrypting and decrypting.
+- `kdf`: is used for deriving a cryptographic key from the Master password.
+- `enc_fernet`: is the function used to encrypt the database, we start by reading,
+  the unencrypted database in a binary way, then we check if we already used the kdf,
+  if not we start by transforming the user's password into bytes then derive it with kdf,
+  after that is the final step which consist of using the `base64.urlsafe_b64encode` method.
+- `base64.urlsafe_b64encode`: is the method that encodes the result of the mixing into a binary form.
+  Then we use that key as the final one in order to encrypt the database.
+- `dec_fernet`: is the function used to decrypt the database, it is exactly the same as,
+- `enc_fernet` we just use the decrypt method to decrypt the file instead of the encrypt method.
 
 ## Problems encountered
 
