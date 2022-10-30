@@ -31,11 +31,11 @@ def enc_fernet(key, filename):
         original = f.read()
     # Check if it's the first time we use the kdf key.
     global derived
+    global final_key
     if derived is False:
         password = key.encode()
         test = kdf.derive(password)
         key_2 = base64.urlsafe_b64encode(test)
-        global final_key
         final_key = key_2
         fernet = Fernet(key_2)
         encrypted = fernet.encrypt(original)
@@ -44,7 +44,6 @@ def enc_fernet(key, filename):
         derived = True
     # If it's not the first time, then use the key generated before.
     else:
-        global final_key
         fernet = Fernet(final_key)
         encrypted = fernet.encrypt(original)
         with open(filename, "wb") as encrypted_file:
@@ -54,10 +53,10 @@ def enc_fernet(key, filename):
 def dec_fernet(key, filename):
     # Check if it's the first time we use the kdf key.
     global derived
+    global final_key
     if derived is False:
         password = key.encode()
         key_2 = base64.urlsafe_b64encode(kdf.derive(password))
-        global final_key
         final_key = key_2
         fernet = Fernet(key_2)
         with open(filename, "rb") as f:
@@ -68,7 +67,6 @@ def dec_fernet(key, filename):
         derived = True
     # If it's not the first time, then use the key generated before.
     else:
-        global final_key
         fernet = Fernet(final_key)
         with open(filename, "rb") as f:
             encrypted = f.read()
