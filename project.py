@@ -180,8 +180,11 @@ def load_database():
     print(f"You have chosen {list_databases[chosen_file]}\n")
     global my_pwd
     my_pwd = enter_pwd()
-    dec_fernet(my_pwd, list_databases[chosen_file])
-    to_do(list_databases[chosen_file])
+    try:
+        dec_fernet(my_pwd, list_databases[chosen_file])
+        to_do(list_databases[chosen_file])
+    except Exception as e:
+        print("Wrong password.")
 
 
 def new_database():
