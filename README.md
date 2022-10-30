@@ -13,13 +13,19 @@ This is actually a project assignment for the course [Introduction to Security](
 - Passwords are stored in an encrypted SQLite database.
 - Master key is used with a salt for more security.
 - Possibility to create an unlimited number of entries.
+- Clear clipboard automatically.
 
 ## TODO
 
-- Clear clipboard automatically.
 - Automatically close if inactivity.
 - Generate random passwords.
 - Search for a specific entry.
+
+## Requirements
+
+```python
+pip3 install pyperclip
+```
 
 ## Usage
 

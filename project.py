@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import copy
+import pyperclip
 
 from enc import *
 from tabulate import tabulate
@@ -12,6 +13,7 @@ def end_fun(db_name):
     global my_pwd
     enc_fernet(my_pwd, db_name)
     os.system("cls" if os.name == "nt" else "clear")
+    pyperclip.copy("")
     exit()
 
 
