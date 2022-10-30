@@ -2,7 +2,7 @@ import os
 import sqlite3
 import copy
 import pyperclip
-
+import secrets
 from enc import *
 from tabulate import tabulate
 
@@ -63,8 +63,12 @@ def to_do(db_name, master=""):
         elif choix == "3":
             site = input("Site name:")
             usr = input("Username:")
+            print("To generate a random password please type simply 'r'.")
             pwd = input("Password:")
-            print("\n")
+            if pwd == "r":
+                password_length = 20
+                pwd = secrets.token_urlsafe(password_length)
+                print(f"The generated password is: {pwd}")
             add_entry(db_name, site, usr, pwd)
         elif choix == "4":
             show_db(db_name)
