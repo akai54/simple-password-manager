@@ -40,6 +40,7 @@ the Fernet encryption for this project, thanks to the cryptography lib. It is si
 
 ## Resources
 
+- ![youtube](https://youtu.be/byHcYRpMgI4)
 - ![stackoverflow](https://stackoverflow.com/questions/70410259/when-i-am-trying-to-use-cryptography-pbkdf2-hash-in-python-but-when-i-enter-a-wr)
 - ![stackoverflow](https://stackoverflow.com/questions/44432945/generating-own-key-with-python-fernet)
 - ![stackoverflow](https://stackoverflow.com/questions/16512284/how-to-unpack-from-a-binary-file-a-byte-array-using-python)
