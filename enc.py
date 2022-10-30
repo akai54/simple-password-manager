@@ -11,8 +11,6 @@ def write_file(file, cont):
     f.close()
 
 
-# key generation
-# key = Fernet.generate_key()
 mysalt = b"\x84\x8d\xc4\xfd\xe0\x176\xb2\xbf\x9f<v<e\xf9\xe6"
 
 
@@ -28,17 +26,6 @@ final_key = None
 derived = False
 
 
-# set the password.
-def set_final(key):
-    global final_key
-    final_key = key
-
-
-# get the password.
-def get_final():
-    return final_key
-
-
 def enc_fernet(key, filename):
     with open(filename, "rb") as f:
         original = f.read()
@@ -48,7 +35,8 @@ def enc_fernet(key, filename):
         password = key.encode()
         test = kdf.derive(password)
         key_2 = base64.urlsafe_b64encode(test)
-        set_final(key_2)
+        global final_key
+        final_key = key_2
         fernet = Fernet(key_2)
         encrypted = fernet.encrypt(original)
         with open(filename, "wb") as encrypted_file:
@@ -56,7 +44,8 @@ def enc_fernet(key, filename):
         derived = True
     # If it's not the first time, then use the key generated before.
     else:
-        fernet = Fernet(get_final())
+        global final_key
+        fernet = Fernet(final_key)
         encrypted = fernet.encrypt(original)
         with open(filename, "wb") as encrypted_file:
             encrypted_file.write(encrypted)
@@ -68,7 +57,8 @@ def dec_fernet(key, filename):
     if derived is False:
         password = key.encode()
         key_2 = base64.urlsafe_b64encode(kdf.derive(password))
-        set_final(key_2)
+        global final_key
+        final_key = key_2
         fernet = Fernet(key_2)
         with open(filename, "rb") as f:
             encrypted = f.read()
@@ -78,7 +68,8 @@ def dec_fernet(key, filename):
         derived = True
     # If it's not the first time, then use the key generated before.
     else:
-        fernet = Fernet(get_final())
+        global final_key
+        fernet = Fernet(final_key)
         with open(filename, "rb") as f:
             encrypted = f.read()
         decrypted = fernet.decrypt(encrypted)
