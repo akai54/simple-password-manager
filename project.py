@@ -8,17 +8,9 @@ from tabulate import tabulate
 my_pwd = None
 
 
-def set_master_pwd(pwd):
-    global my_pwd
-    my_pwd = pwd
-
-
-def get_master_pwd():
-    return my_pwd
-
-
 def end_fun(db_name):
-    enc_fernet(get_master_pwd(), db_name)
+    global my_pwd
+    enc_fernet(my_pwd, db_name)
     os.system("cls" if os.name == "nt" else "clear")
     exit()
 
@@ -75,7 +67,7 @@ def to_do(db_name, master=""):
         elif choix == "4":
             show_db(db_name)
         elif choix == "5":
-            print(get_master_pwd())
+            print(my_pwd)
             end_fun(db_name)
         else:
             print("Please choose only between the available choices.\n")
@@ -186,9 +178,9 @@ def load_database():
         print(i, val)
     chosen_file = int(input("\nEnter the database file number.\n"))
     print(f"You have chosen {list_databases[chosen_file]}\n")
-    master = enter_pwd()
-    set_master_pwd(master)
-    dec_fernet(get_master_pwd(), list_databases[chosen_file])
+    global my_pwd
+    my_pwd = enter_pwd()
+    dec_fernet(my_pwd, list_databases[chosen_file])
     to_do(list_databases[chosen_file])
 
 
@@ -196,8 +188,8 @@ def new_database():
     name = input("Please enter the name of this new database.\n")
     name = name + ".db"
 
-    master = enter_pwd()
-    set_master_pwd(master)
+    global my_pwd
+    my_pwd = enter_pwd()
 
     # Connect to database.
     conn = sqlite3.connect(name)
