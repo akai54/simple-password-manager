@@ -50,7 +50,7 @@ python3 project.py
 - `base64.urlsafe_b64encode`: is the method that encodes the result of the mixing into a binary form.
   Then we use that key as the final one in order to encrypt the database.
 - `dec_fernet`: is the function used to decrypt the database, it is exactly the same as,
-- `enc_fernet` we just use the decrypt method to decrypt the file instead of the encrypt method.
+  `enc_fernet` we just use the decrypt method to decrypt the file instead of the encrypt method.
 
 ## Problems encountered
 
