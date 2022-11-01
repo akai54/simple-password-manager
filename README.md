@@ -25,6 +25,8 @@ This is actually a project assignment for the course [Introduction to Security](
 
 ```python
 pip3 install pyperclip
+pip3 install tabulate
+pip3 install cryptography
 ```
 
 ## Usage
